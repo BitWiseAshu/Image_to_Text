@@ -7,7 +7,7 @@ from plyer import notification
 import time
 
 # Set Tesseract path
-tesseract_path = r'C:\Program Files\Tesseract-OCR'
+tesseract_path = r'C:\Users\Ashu\AppData\Local\Programs\Tesseract-OCR'
 pytesseract.pytesseract.tesseract_cmd = os.path.join(tesseract_path, "tesseract.exe")
 
 # Set Streamlit page configuration
