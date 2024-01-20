@@ -20,15 +20,10 @@ Before running the application, ensure you have the following dependencies insta
 - Pyperclip
 - Pillow
 
-You can install the required packages using the following command:
-
-```bash
-pip install streamlit pytesseract pyperclip pillow
-```
 ## Clone the repository:
 ```bash
-git clone https://github.com/yourusername/image-to-text-converter.git
-cd image-to-text-converter
+git clone https://github.com/Ashu-Pablo/Image_to_Text
+cd Image_to_Text
 ```
 
 ## Make virutal environment
