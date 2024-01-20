@@ -1,5 +1,0 @@
-pip install plyer
-pip install streamlit
-pip install pytesseract
-pip install pyperclip
-pip install pillow

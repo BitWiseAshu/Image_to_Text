@@ -1,0 +1,5 @@
+plyer
+streamlit
+pytesseract
+pyperclip
+pillow
