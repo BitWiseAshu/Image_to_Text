@@ -5,7 +5,9 @@ import os
 import pyperclip
 from plyer import notification
 import time
+import welcome
 
+# Set your Tesseract path
 tesseract_path = r'C:\Users\Ashu\AppData\Local\Programs\Tesseract-OCR'
 pytesseract.pytesseract.tesseract_cmd = os.path.join(tesseract_path, "tesseract.exe")
 
@@ -36,6 +38,10 @@ def perform_ocr(img):
 
 # Main function
 def main():
+
+    if 'welcome_animation_shown' not in st.session_state:
+        welcome.welcome_animation()
+        st.session_state.welcome_animation_shown = True
 
     st.title("TEXTEMAGE - Image Text Extraction")
     st.write(
