@@ -4,7 +4,7 @@ This project is a simple image-to-text converter implemented in Python. It provi
 
 ## Features
 
-- Convert images to text
+- Convert images text into text
 - Web application using Streamlit
 - Tesseract OCR for text extraction
 - Copy extracted text to the clipboard
