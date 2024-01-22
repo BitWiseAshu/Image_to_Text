@@ -1,3 +1,7 @@
 myenv
+<<<<<<< HEAD
 __pycache__ 
 image2text_temp.py
+=======
+hey.py
+>>>>>>> 873e78601622a64c12bcd5142229988a417d8f79

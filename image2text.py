@@ -9,6 +9,7 @@ import welcome
 
 # Set your Tesseract path
 tesseract_path = r'C:\Users\Ashu\AppData\Local\Programs\Tesseract-OCR'
+#C:\Program Files\Tesseract-OCR
 pytesseract.pytesseract.tesseract_cmd = os.path.join(tesseract_path, "tesseract.exe")
 
 # Set Streamlit page configuration
@@ -106,7 +107,7 @@ def main():
                 if download_text == "":
                     download_text = perform_ocr(img)
                 
-                if st.download_button(label="Download", data=download_text, file_name="text.txt", mime="text/plain", key="download"):
+                if st.download_button(label="Download", data=download_text, file_name=uploaded_file.name, mime="text/plain", key="download"):
                     success_message = st.success("Text downloaded", icon="✅") 
                     time.sleep(0.5)
                     success_message.empty()
