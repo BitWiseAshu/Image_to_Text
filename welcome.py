@@ -19,11 +19,11 @@ def welcome_animation():
             st.markdown(
                 f"""
                  
-                    <h1 style="font-size: 2.5em; text-align: center; text-align: justify;">🌟 Welcome to ImageText 🌟</h1>
+                    <h1 style="font-size: 2.5em; text-align: center; text-align: justify;">🌟 Welcome to TEXTMAGE 🌟</h1>
                     <br/>
                     <h2 style="font-size: 1.5em; text-align: center; text-align: justify;"> Your Gateway to Effortless Image-to-Text Conversion!</h2>
                     <br/>
-                    <p style="font-size: 1.1em; font-family: Arial; text-align: center; text-align: justify;">ImageText is a tool that simplifies text extraction from images, making information more accessible. It effortlessly transforms images into editable and shareable text for students, professionals, and creative enthusiasts.</p>
+                    <p style="font-size: 1.1em; font-family: Arial; text-align: center; text-align: justify;">ImageText streamlines text extraction from images, offering a user-friendly interface for students, professionals, and creatives. It enhances accessibility by converting images to editable text, saving time with copy and download options. Ideal for efficient, accurate, and collaborative information processing.</p>
                     <p style="font-size: 1.5em;">Developed by team DarkCoder 🕶️🕶️</p>
                 
                 """,
@@ -47,6 +47,8 @@ def welcome_animation():
                 image_urls[i],
                 use_column_width=True,
                 # caption=f"Image {i + 1}",
+                # caption="wait for it... ⏳ ⏳ ⏳",
+                caption="wait app is loading... ⏳ ⏳ ⏳ 🌀 🌀 🌀 ",
                 output_format="png",
                 width=500,
                 clamp=True,
