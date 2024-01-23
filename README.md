@@ -1,6 +1,6 @@
 # Image to Text Converter
 
-This project is a simple image-to-text converter implemented in Python. It provides a web application using Streamlit, with the ability to extract text from images using Tesseract OCR (Pytesseract). Additionally, Pyperclip is used for copying the extracted text to the clipboard, and Pillow is employed for image processing.
+This project is a simple image-to-text converter implemented in Python. It provides a web application using Streamlit, with the ability to extract text from images using Tesseract OCR (Pytesseract) text can be copied and downloaded in a text file. Additionally, Pyperclip is used for copying the extracted text to the clipboard, and Pillow is employed for image processing.
 
 ## Features
 
