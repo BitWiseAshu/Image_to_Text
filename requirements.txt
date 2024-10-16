@@ -1,11 +1,11 @@
-# player
-# streamlit
-# pytesseract
-# pyperclip
-# pillow
-
-
+player
 streamlit
-easyocr
-Pillow
-numpy
+pytesseract
+pyperclip
+pillow
+
+
+# streamlit
+# easyocr
+# Pillow
+# numpy
