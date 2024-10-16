@@ -147,18 +147,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 import streamlit as st
 from PIL import Image, UnidentifiedImageError
 import pytesseract
@@ -190,18 +178,14 @@ def perform_ocr(img):
         st.error(f"Error during text extraction: {str(e)}")
         return ""
 
-# Function to copy text to clipboard using JavaScript
-def copy_to_clipboard():
-    st.session_state.copy_button_clicked = True
-
 # Main function
 def main():
     if 'welcome_animation_shown' not in st.session_state:
         welcome.welcome_animation()
         st.session_state.welcome_animation_shown = True
 
-    if 'copy_button_clicked' not in st.session_state:
-        st.session_state.copy_button_clicked = False
+    if 'extracted_text' not in st.session_state:
+        st.session_state.extracted_text = ""
 
     st.title("TEXTEMAGE - Image Text Extraction")
     st.write("Upload an image, and TEXTEMAGE will extract the text content from it.")
@@ -215,18 +199,14 @@ def main():
         ##### How to Use
         1. Upload an image using the file uploader on the left.
         2. Click the 'Extract Text' button to perform OCR and see the extracted text on the right.
-        3. Click the 'Copy Text' button to copy the extracted text to clipboard.
-        4. Click the 'Download Text' button to download the extracted text.
+        3. Edit the text in the text area if needed.
+        4. Click the 'Copy Text' button to copy the extracted text to clipboard.
+        5. Click the 'Download Text' button to download the extracted text.
         """
     )
 
     # Create two columns
     col1, space, col2 = st.columns([1, 0.3, 1])
-
-    extracted_text = ""
-    copied_text = ""
-    download_text = ""
-    flag = False
 
     # Column 1: Upload image box
     with col1:
@@ -237,74 +217,66 @@ def main():
                 st.image(img, caption="Uploaded Image", use_column_width=True)
 
         if uploaded_file is not None and img is not None:
-
             col3, space, col4, space, col5 = st.columns([1, 0.1, 1, 0.1, 1])
 
             # Extract Text button
             with col3:
                 if st.button("Extract Text", key="extract_button"):
-                    extracted_text = perform_ocr(img)
-                    copied_text = extracted_text
-                    success_message = st.success("Text Extracted", icon="✅") 
+                    st.session_state.extracted_text = perform_ocr(img)
+                    success_message = st.success("Text Extracted", icon="✅")
                     time.sleep(0.5)
                     success_message.empty()
 
             # Copy Text button
             with col4:
-                if st.button("Copy Text", key="copy_button", on_click=copy_to_clipboard):
-                    if copied_text == "":
-                        copied_text = perform_ocr(img)
-                    success_message = st.success("Text copied", icon="✅") 
-                    time.sleep(0.5)
-                    success_message.empty()
+                if st.button("Copy Text", key="copy_button"):
+                    st.write("Text copied to clipboard!")
 
             # Download button
             with col5:
-                if download_text == "":
-                    download_text = perform_ocr(img)
-                
-                extracted_file_name = uploaded_file.name
-                extracted_file_name = extracted_file_name.split(".")[0] + ".txt"
-                
-                if st.download_button(label="Download", data=download_text, file_name=extracted_file_name, mime="text/plain", key="download"):
-                    success_message = st.success("Text downloaded", icon="✅") 
+                if st.download_button(
+                    label="Download",
+                    data=st.session_state.extracted_text,
+                    file_name=f"{uploaded_file.name.split('.')[0]}.txt",
+                    mime="text/plain",
+                    key="download"
+                ):
+                    success_message = st.success("Text downloaded", icon="✅")
                     time.sleep(0.5)
                     success_message.empty()
-                    flag = not flag
 
-    # Column 2: Extracted or Copied text view
+    # Column 2: Extracted text view and edit
     with col2:
-        if extracted_text:
-            st.subheader("Extracted Text:")
-            st.text_area("Extracted Text 👇", extracted_text, height=350)
-            st.write("Text Extracted!")
+        st.subheader("Extracted Text:")
+        text_area_content = st.text_area(
+            "You can edit the text here 👇",
+            value=st.session_state.extracted_text,
+            height=350,
+            key="text_area"
+        )
 
-        elif copied_text:
-            st.subheader("Copied Text:")
-            st.text_area("Copied Text 👇", copied_text, height=350)
-            st.write("Text Copied in Clipboard!")
-
-        elif flag:
-            st.subheader("Downloaded Text:")
-            st.text_area("Downloaded Text 👇", download_text, height=350)
-            st.write("Text Download Completed as text.txt File!")
+        # Update session state when text area changes
+        if text_area_content != st.session_state.extracted_text:
+            st.session_state.extracted_text = text_area_content
 
     # Add JavaScript for clipboard functionality
-    if st.session_state.copy_button_clicked:
-        st.markdown(
-            """
-            <script>
-            const text = document.querySelector('.stTextArea textarea').value;
-            navigator.clipboard.writeText(text).then(function() {
+    st.markdown(
+        """
+        <script>
+        const copyButton = document.querySelector('button:has-text("Copy Text")');
+        const textArea = document.querySelector('textarea');
+        
+        copyButton.addEventListener('click', function() {
+            navigator.clipboard.writeText(textArea.value).then(function() {
                 console.log('Copying to clipboard was successful!');
             }, function(err) {
                 console.error('Could not copy text: ', err);
             });
-            </script>
-            """,
-            unsafe_allow_html=True
-        )
-        st.session_state.copy_button_clicked = False
+        });
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
 
 # Run the app
 if __name__ == "__main__":
