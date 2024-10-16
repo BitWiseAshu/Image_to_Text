@@ -1,9 +1,9 @@
 import streamlit as st
 from PIL import Image, UnidentifiedImageError
 import pytesseract
-import os
+# import os
 import pyperclip
-from plyer import notification
+# from plyer import notification
 import time
 import welcome
 
