@@ -191,26 +191,17 @@ def perform_ocr(img):
         return ""
 
 # Function to copy text to clipboard using JavaScript
-def copy_to_clipboard(text):
-    js_code = f"""
-    <script>
-    function copyText() {{
-        navigator.clipboard.writeText("{text}").then(function() {{
-            alert("Copied to clipboard!");
-        }}, function(err) {{
-            alert("Error copying to clipboard: " + err);
-        }});
-    }}
-    copyText();
-    </script>
-    """
-    st.components.v1.html(js_code)
+def copy_to_clipboard():
+    st.session_state.copy_button_clicked = True
 
 # Main function
 def main():
     if 'welcome_animation_shown' not in st.session_state:
         welcome.welcome_animation()
         st.session_state.welcome_animation_shown = True
+
+    if 'copy_button_clicked' not in st.session_state:
+        st.session_state.copy_button_clicked = False
 
     st.title("TEXTEMAGE - Image Text Extraction")
     st.write("Upload an image, and TEXTEMAGE will extract the text content from it.")
@@ -258,12 +249,11 @@ def main():
                     time.sleep(0.5)
                     success_message.empty()
 
-            # Copy Text button (replaced pyperclip functionality)
+            # Copy Text button
             with col4:
-                if st.button("Copy Text", key="copy_button"):
+                if st.button("Copy Text", key="copy_button", on_click=copy_to_clipboard):
                     if copied_text == "":
                         copied_text = perform_ocr(img)
-                    copy_to_clipboard(copied_text)  # Use the new copy function
                     success_message = st.success("Text copied", icon="✅") 
                     time.sleep(0.5)
                     success_message.empty()
@@ -298,6 +288,23 @@ def main():
             st.subheader("Downloaded Text:")
             st.text_area("Downloaded Text 👇", download_text, height=350)
             st.write("Text Download Completed as text.txt File!")
+
+    # Add JavaScript for clipboard functionality
+    if st.session_state.copy_button_clicked:
+        st.markdown(
+            """
+            <script>
+            const text = document.querySelector('.stTextArea textarea').value;
+            navigator.clipboard.writeText(text).then(function() {
+                console.log('Copying to clipboard was successful!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+            </script>
+            """,
+            unsafe_allow_html=True
+        )
+        st.session_state.copy_button_clicked = False
 
 # Run the app
 if __name__ == "__main__":
